@@ -10,7 +10,9 @@ The goal of this project is to deliver a machine learning solution that can pred
 ## System Design (Overview)
 Here is what the solution will look like visually:
 
-![image](https://github.com/JinalShah2002/nlp-disaster-tweets/assets/28205508/e7e72939-ef50-4a7d-913f-85e9e11a7559){align="center"}
+<p align="center">
+  <img width="600" height="200" src="https://github.com/JinalShah2002/nlp-disaster-tweets/assets/28205508/e7e72939-ef50-4a7d-913f-85e9e11a7559">
+</p>
 
 As you can see, essentially, the customer sends a tweet to the model, and the model returns a 0, which means the tweet isn't about a disaster, or 1, which means the tweet is about a disaster.
 
