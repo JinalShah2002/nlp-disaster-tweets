@@ -33,9 +33,6 @@ class Preprocessing():
         # Creating a list for the stop words
         nltk.download('stopwords')
         self.stop_words = stopwords.words('english')
-
-        # Creating a list for the final sentences matrix
-        self.sentences = []
     
     # Creating a function to drop the columns
     def drop_columns(self,data,columns=['location','id','keyword']):
@@ -75,6 +72,7 @@ class Preprocessing():
 
         # Convert the text data to a numpy array 
         text_data_arr = text_data.to_numpy()
+        processed_sentences = []
 
         # Getting the preprocessed text
         for sentence in text_data_arr:
@@ -94,12 +92,12 @@ class Preprocessing():
                 processed_word = processed_word.decode()
 
                 # Conditions to add it to the final preprocessed sentence
-                if (processed_word != "") and (processed_word not in self.stop_words) and ("http" not in processed_word):
+                if (processed_word != "") and (processed_word not in self.stop_words) and ("http" not in processed_word) and ("@" not in processed_word):
                     final_preprocessed_sentence.append(processed_word)
                 
-            self.sentences.append(final_preprocessed_sentence)
+            processed_sentences.append(final_preprocessed_sentence)
         
         # returning the preprocessed sentences
-        return self.sentences
+        return processed_sentences
     
     

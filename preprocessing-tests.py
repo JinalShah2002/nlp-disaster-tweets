@@ -69,6 +69,14 @@ class TestPreprocessing(unittest.TestCase):
         expectation = [['london','cool'],['random','text']]
         self.assertEqual(returned,expectation)
 
+        # Test 6: No emails
+        dummy_data = {'id':[0,1],'location':['None','USA'],'keyword':['None','hurricane'],'text':['random@something.com text','some *random text!!!!']}
+        dummy_data = pd.DataFrame(dummy_data)
+        preprocess = preprocessing.Preprocessing()
+        returned = preprocess.preprocess_data(dummy_data)
+
+        expectation = [['text'],['random','text']]
+        self.assertEqual(returned,expectation)
 
 # Main Method to run the tests
 if __name__ == '__main__':
