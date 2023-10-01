@@ -187,3 +187,7 @@ print(training_metrics_df)
 print()
 print('Validation Metrics:') 
 print(validation_metrics_df)
+
+# Saving the metrics to a csv file for future reference
+training_metrics_df.to_csv('model-performances/training-bag-of-words.csv',index=False)
+validation_metrics_df.to_csv('model-performances/validation-bag-of-words.csv',index=False)
