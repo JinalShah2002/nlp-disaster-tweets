@@ -1,6 +1,9 @@
 # Ignoring pushing data to the github
 data/
 
+# Ignoring the Catboost Data
+catboost_info/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
