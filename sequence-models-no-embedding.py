@@ -29,7 +29,7 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-from keras.layers import SimpleRNN, Dense
+from keras.layers import SimpleRNN, Dense, GRU, LSTM
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 from preprocessing import Preprocessing
@@ -128,6 +128,48 @@ print()
 # plt.plot(history.history['loss'])
 # plt.show()
 
+# Model 2: Gated Recurrent Unit
+print('Starting Gated Recurrent Unit...')
+gru_clf = Sequential()
+gru_clf.add(GRU(units=50,activation='tanh',recurrent_activation='sigmoid',bias_initializer='ones',return_sequences=False,input_shape=(training_X.shape[1],training_X.shape[2])))
+gru_clf.add(Dense(1,activation='sigmoid',bias_initializer='ones'))
+loss_function = 'binary_crossentropy'
+optimizer = keras.optimizers.Adam(learning_rate=0.001)
+gru_clf.compile(optimizer,loss_function)
+history = gru_clf.fit(x=training_X,y=train_y,batch_size=32,epochs=30)
+training_predictions = gru_clf.predict(training_X,batch_size=32)
+validation_predictions = gru_clf.predict(valid_X,batch_size=32)
+train_metrics = get_metrics(train_y,np.rint(training_predictions))
+valid_metrics = get_metrics(valid_y,np.rint(validation_predictions))
+train_metrics_df = {'Name':'Gated Recurrent Unit','F1':train_metrics[0],'Precision':train_metrics[1],'Recall':train_metrics[2],'Accuracy':train_metrics[3]}
+valid_metrics_df = {'Name':'Gated Recurrent Unit','F1':valid_metrics[0],'Precision':valid_metrics[1],'Recall':valid_metrics[2],'Accuracy':valid_metrics[3]}
+
+training_metrics.append(train_metrics_df)
+validation_metrics.append(valid_metrics_df)
+print('Finished Gated Recurrent Unit Model')
+print()
+
+# Model 2: Long-Short Term Memory
+print('Starting Long-Short Term Memory...')
+lstm_clf = Sequential()
+lstm_clf.add(LSTM(units=50,activation='tanh',recurrent_activation='sigmoid',return_sequences=False))
+lstm_clf.add(Dense(1,activation='sigmoid',bias_initializer='ones'))
+loss_function = 'binary_crossentropy'
+optimizer = keras.optimizers.Adam(learning_rate=0.001)
+lstm_clf.compile(optimizer,loss_function)
+history = lstm_clf.fit(x=training_X,y=train_y,batch_size=32,epochs=30)
+training_predictions = lstm_clf.predict(training_X,batch_size=32)
+validation_predictions = lstm_clf.predict(valid_X,batch_size=32)
+train_metrics = get_metrics(train_y,np.rint(training_predictions))
+valid_metrics = get_metrics(valid_y,np.rint(validation_predictions))
+train_metrics_df = {'Name':'Long-Short Term Memory','F1':train_metrics[0],'Precision':train_metrics[1],'Recall':train_metrics[2],'Accuracy':train_metrics[3]}
+valid_metrics_df = {'Name':'Long-Short Term Memory','F1':valid_metrics[0],'Precision':valid_metrics[1],'Recall':valid_metrics[2],'Accuracy':valid_metrics[3]}
+
+training_metrics.append(train_metrics_df)
+validation_metrics.append(valid_metrics_df)
+print('Finished Long-Short Term Memory Model')
+print()
+
 training_metrics_df = pd.DataFrame(training_metrics)
 validation_metrics_df = pd.DataFrame(validation_metrics)
 
@@ -137,4 +179,6 @@ print()
 print('Validation Metrics:') 
 print(validation_metrics_df)
 
-
+# Saving the metrics
+training_metrics_df.to_csv('model-performances/sequence-no-embedding.csv',index=False)
+validation_metrics_df.to_csv('model-performances/sequence-no-embedding.csv',index=False)
