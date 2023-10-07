@@ -180,5 +180,5 @@ print('Validation Metrics:')
 print(validation_metrics_df)
 
 # Saving the metrics
-training_metrics_df.to_csv('model-performances/sequence-no-embedding.csv',index=False)
-validation_metrics_df.to_csv('model-performances/sequence-no-embedding.csv',index=False)
+training_metrics_df.to_csv('model-performances/training-sequence-no-embedding.csv',index=False)
+validation_metrics_df.to_csv('model-performances/validation-sequence-no-embedding.csv',index=False)
