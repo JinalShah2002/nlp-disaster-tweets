@@ -16,7 +16,7 @@ import numpy as np
 # Class for the transformer
 class Transformer(nn.Module):
     # Constructor
-    def __init__(self,vocab_size=1002,embed_dim=128,heads=4,max_length=57):
+    def __init__(self,vocab_size=1002,embed_dim=128,heads=4,max_length=57,dropout_rate=0.2):
         """
         constructor
 
@@ -27,6 +27,7 @@ class Transformer(nn.Module):
         - embed_dim: the embedding dimension
         - heads: the number of heads in the transformer 
         - max_length of a sentence
+        - dropout_rate: rate of dropout
 
         outputs:
         - None
@@ -48,6 +49,7 @@ class Transformer(nn.Module):
         # Classifier
         self.clf_output_one = nn.Linear(embed_dim,50,bias=True)
         self.output = nn.Linear(50,2,bias=True)
+        self.dropout = nn.Dropout(p=dropout_rate)
     
     # A function to get the positional encoding
     def getPositionalEncoding(self,max_length,embed_dim):
@@ -96,7 +98,7 @@ class Transformer(nn.Module):
         outputs:
         - output: the output of the transformer encoder
         """
-        model_in = (np.sqrt(self.embed_dim) * self.embedding(x)) + self.pos_encode
+        model_in = self.dropout((np.sqrt(self.embed_dim) * self.embedding(x)) + self.pos_encode)
         output,_ = self.attention(query=model_in,key=model_in,value=model_in,need_weights=False)
         output = self.layernorm1(model_in + output)
 
@@ -108,6 +110,7 @@ class Transformer(nn.Module):
         # Averaging the 57 embeddings and sending through the classifer
         output = torch.mean(output,dim=1)
         output = F.relu(self.clf_output_one(output))
+        output = self.dropout(output)
         output = F.sigmoid(self.output(output))
 
         return output
