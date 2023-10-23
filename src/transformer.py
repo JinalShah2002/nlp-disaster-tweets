@@ -78,7 +78,8 @@ class Transformer(nn.Module):
         for pos in range(embedding.shape[0]):
             for i in range(0,embedding.shape[1],2):
                 embedding[pos,i] = torch.sin(pos/dimension_divisor[i])
-                embedding[pos,i+1] = torch.cos(pos/dimension_divisor[i+1])
+                if i != embedding.shape[1] - 1:
+                    embedding[pos,i+1] = torch.cos(pos/dimension_divisor[i+1])
         
         # returning the embedding
         embedding = torch.unsqueeze(embedding,dim=0)
@@ -108,9 +109,9 @@ class Transformer(nn.Module):
         output = self.layernorm2(output+output_feed)
 
         # Averaging the 57 embeddings and sending through the classifer
-        output = torch.mean(output,dim=1)
+        output = self.dropout(torch.mean(output,dim=1))
         output = F.relu(self.clf_output_one(output))
-        output = F.sigmoid(self.output(output))
+        output = F.softmax(self.output(output),dim=1)
 
         return output
         
