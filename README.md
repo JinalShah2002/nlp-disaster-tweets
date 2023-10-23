@@ -24,9 +24,14 @@ It is evident that the solution will have to be some kind of classifier as this 
 
 The Kaggle challenge also has some test data for me to submit. Once the model is trained ,and I am satisfied with the performance, I can feed the test data into the model and make predictions to submit. 
 
-### Evaluation
+## Evaluation
 It is critical to figure out what my evaluation metric is going to be. For this problem, the Kaggle challenge utilizes the [F1-Score](https://en.wikipedia.org/wiki/F-score). Hence, I will choose my model based on the F1-Score. 
 
 Note, I will also keep track of the following "secondary" evaluation metrics: Precision, Recall, Accuracy, and Loss (Categorical Cross Entropy or Log-loss in this case).
 
-
+## Results:
+1. Transformer - 0.7768
+2. Logistic Regression - 0.768
+3. Gradient Boosting - 0.75758
+4. LSTM - 0.7214
+5. GRU - 0.7106
