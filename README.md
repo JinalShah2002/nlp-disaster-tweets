@@ -32,6 +32,6 @@ Note, I will also keep track of the following "secondary" evaluation metrics: Pr
 ## Results:
 1. Transformer - 0.7768
 2. Logistic Regression - 0.768
-3. Gradient Boosting - 0.75758
-4. LSTM - 0.7214
-5. GRU - 0.7106
+3. GRU - 0.76739
+4. LSTM - 075758
+5. Gradient Boosting - 0.75758
